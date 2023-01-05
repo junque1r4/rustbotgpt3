@@ -11,7 +11,6 @@ pub enum State {
     Dialogue,
 }
 
-
 /*
 TODO: Fazer o bot responder somente quando é mencionado.
 TODO: Fazer o bot responder somente nos canais com permissão

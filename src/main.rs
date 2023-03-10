@@ -27,7 +27,8 @@ async fn bot_dialogue(bot: Bot, dialogue: MyDialogue, msg: Message) -> HandlerRe
             } else {
                 match chatbot(valid_input.to_string(), openai_token) {
                     Some(chatbot_response) => {
-                        bot.send_message(msg.chat.id, chatbot_response).parse_mode(teloxide::types::ParseMode::Markdown).await?;
+                        let formated_text = handle_string_to_mkv2(chatbot_response).await;
+                        bot.send_message(msg.chat.id, formated_text).parse_mode(teloxide::types::ParseMode::MarkdownV2).await?;
                     },
                     None => {
                         bot.send_message(msg.chat.id, "Não entendi o que você disse.").await?;
@@ -61,4 +62,23 @@ async fn main() {
     .build()
     .dispatch()
     .await;
+}
+
+pub async fn handle_string_to_mkv2(text: String) -> String {
+    text.replace("_", "\\_")
+        .replace("*", "\\*")
+        .replace("[", "\\[")
+        .replace("]", "\\]")
+        .replace("(", "\\(")
+        .replace(")", "\\)")
+        .replace("~", "\\~")
+        .replace(">", "\\>")
+        .replace("#", "\\#")
+        .replace("+", "\\+")
+        .replace("-", "\\-")
+        .replace("=", "\\=")
+        .replace("{", "\\{")
+        .replace("}", "\\}")
+        .replace(".", "\\.")
+        .replace("!", "\\!")
 }

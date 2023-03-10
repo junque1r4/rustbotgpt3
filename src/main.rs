@@ -27,7 +27,7 @@ async fn bot_dialogue(bot: Bot, dialogue: MyDialogue, msg: Message) -> HandlerRe
             } else {
                 match chatbot(valid_input.to_string(), openai_token) {
                     Some(chatbot_response) => {
-                        bot.send_message(msg.chat.id, chatbot_response).await?;
+                        bot.send_message(msg.chat.id, chatbot_response).parse_mode(teloxide::types::ParseMode::Markdown).await?;
                     },
                     None => {
                         bot.send_message(msg.chat.id, "Não entendi o que você disse.").await?;
